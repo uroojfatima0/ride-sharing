@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Available Rides</title>
+</head>
+<body>
+  <h1>Available Rides</h1>
+  <ul>
+    <% availableRides.forEach(ride => { %>
+      <li>
+        <strong>Pickup:</strong> <%= ride.pickupLocation %> <br>
+        <strong>Drop-off:</strong> <%= ride.dropOffLocation %> <br>
+        <form action="/rides/<%= ride._id %>/accept" method="POST">
+          <input type="hidden" name="driverId" value="<%= driverId %>">
+          <button type="submit">Accept Ride</button>
+        </form>
+      </li>
+    <% }); %>
+  </ul>
+</body>
+</html>

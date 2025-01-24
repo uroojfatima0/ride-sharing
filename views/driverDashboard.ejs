@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Driver Dashboard</title>
+  <style>
+    /* Reset default styles for a clean start */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* General body styling */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f7fa; /* Light background for the dashboard */
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      padding: 20px;
+    }
+
+    /* Dashboard container */
+    .dashboard-container {
+      background: #fff;
+      width: 100%;
+      max-width: 1000px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      padding: 40px;
+      text-align: center;
+    }
+
+    /* Header styling */
+    .dashboard-header h1 {
+      font-size: 2.5em;
+      color: #2b2b2b;
+      margin-bottom: 30px;
+      font-weight: bold;
+      text-transform: capitalize;
+    }
+
+    /* Section for links to available actions */
+    .dashboard-links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    /* Each action card */
+    .card {
+      background: #ff61a6; /* Soft pinkish background */
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .card a {
+      display: inline-block;
+      color: #fff;
+      text-decoration: none;
+      font-size: 1.2em;
+      font-weight: bold;
+      background: #e65694;
+      padding: 10px 20px;
+      border-radius: 8px;
+      transition: background 0.3s ease;
+    }
+
+    .card a:hover {
+      background: #d54982;
+    }
+
+    /* Card titles */
+    .card h3 {
+      font-size: 1.5em;
+      margin-bottom: 15px;
+    }
+
+    /* Footer text with padding */
+    .footer {
+      margin-top: 40px;
+      font-size: 0.9em;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <div class="dashboard-header">
+      <h1>Welcome, <%= driverName %></h1>
+    </div>
+
+    <div class="dashboard-links">
+      <!-- Card for Available Rides -->
+      <div class="card">
+        <h3>Available Rides</h3>
+        <a href="/drivers/<%= driverId %>/available-rides">View Available Rides</a>
+      </div>
+      
+      <!-- Card for Earnings -->
+      <div class="card">
+        <h3>Your Earnings</h3>
+        <a href="/drivers/<%= driverId %>/earnings">View Earnings</a>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>Driver Dashboard - Ride-Sharing App</p>
+    </div>
+  </div>
+</body>
+</html>

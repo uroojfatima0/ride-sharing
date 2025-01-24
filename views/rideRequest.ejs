@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Request a Ride</title>
+</head>
+<body>
+  <h1>Request a Ride</h1>
+  <form action="/rides/request" method="POST">
+    <label for="pickupLocation">Pickup Location:</label>
+    <input type="text" id="pickupLocation" name="pickupLocation" required><br>
+
+    <label for="dropOffLocation">Drop-off Location:</label>
+    <input type="text" id="dropOffLocation" name="dropOffLocation" required><br>
+
+    <label for="ridePreferences">Ride Preferences:</label>
+    <input type="text" id="ridePreferences" name="ridePreferences"><br>
+
+    <button type="submit">Request Ride</button>
+  </form>
+</body>
+</html>

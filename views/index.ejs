@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ride-Sharing App</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f9f9f9; /* Light, soft background color */
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+      color: #333;
+    }
+
+    h1 {
+      font-size: 3.5em;
+      color: #2b2b2b;
+      margin-bottom: 40px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px; /* Increase space between buttons */
+    }
+
+    a {
+      font-size: 1.2em;
+      margin: 15px 0;
+      color: #fff;
+      text-decoration: none;
+      padding: 15px 40px;
+      background: #ff61a6; /* Soft pink for the buttons */
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+    }
+
+    a:hover {
+      background: linear-gradient(145deg, #ff61a6, #e65694); /* Gradient effect on hover */
+      transform: translateY(-5px) scale(1.05); /* Slight scaling effect */
+    }
+
+    a:active {
+      transform: translateY(-2px) scale(1); /* Reset scale on click */
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to Ride-Sharing App</h1>
+  <div class="button-container">
+    <a href="/register/customer">Register as Customer</a>
+    <a href="/register/driver">Register as Driver</a>
+    <a href="/login">Login</a>
+  </div>
+</body>
+</html>

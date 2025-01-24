@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Ride Status</title>
+</head>
+<body>
+  <h1>Ride Status</h1>
+  <p>Status: <%= ride.status %></p>
+  <p>Pickup Location: <%= ride.pickupLocation %></p>
+  <p>Drop-off Location: <%= ride.dropOffLocation %></p>
+  <% if (ride.status === 'pending') { %>
+    <form action="/rides/<%= ride._id %>/cancel" method="POST">
+      <button type="submit">Cancel Ride</button>
+    </form>
+  <% } %>
+</body>
+</html>
