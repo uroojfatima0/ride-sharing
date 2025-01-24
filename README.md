@@ -20,18 +20,33 @@ To get started with the project, follow these steps:
 
 3. Install the necessary dependencies and follow the setup instructions provided in the project README to get the application running.
 
-4. Run the following command
+4. To configure your local environment, create a `.env` file in the root directory of the project with the following credentials:
+   
+- **MONGO_URI**: Connection string for MongoDB.
+- **JWT_SECRET**: Secret key used to sign JWT tokens.
+- **PORT**: Port number where the application will run (default is 5000).
+(replace with your own credentials)
+  ```bash
+  MONGO_URI=mongodb+srv://<username>:<password>@<cluster-url>/<database>?retryWrites=true&w=majority
+  JWT_SECRET=SecretKey
+  PORT=5000
+  ```
+
+Make sure to keep your `.env` file secure and do not share it publicly.
+  
+
+6. Run the following command
 
     ```bash
     nodemon server.js
     ```
 
-5. Open in your local browser:
+7. Open in your local browser:
 
    ```bash
    http://localhost:5000/
    ```
-6. For swagger documentation, open following link in your browsers:
+8. For swagger documentation, open following link in your browsers:
    ```bash
       http://localhost:5000/api-docs
    ```
