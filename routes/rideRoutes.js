@@ -1,7 +1,8 @@
 const express = require('express');
-const { requestRide } = require('../controllers/rideController');
 const router = express.Router();
+const { getCustomerRideHistory, startRide } = require('../controllers/rideController');
 
-router.post('/request', requestRide);
+router.get('/api/customers/:customerId/rideHistory', getCustomerRideHistory);
+router.post('/api/rides/:rideId/start', startRide);
 
 module.exports = router;

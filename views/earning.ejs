@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Earnings Summary</title>
+</head>
+
+<body>
+    <h1>Your Earnings Summary</h1>
+    <p><strong>Total Rides Completed:</strong>
+        <%= totalRides %>
+    </p>
+    <p><strong>Total Earnings:</strong> $<%= totalEarnings %>
+    </p>
+
+    <h2>Ride Details</h2>
+    <ul>
+        <% rides.forEach(ride=> { %>
+            <li>
+                <strong>Pickup:</strong>
+                <%= ride.pickupLocation %> <br>
+                    <strong>Drop-off:</strong>
+                    <%= ride.dropOffLocation %> <br>
+                        <strong>Status:</strong>
+                        <%= ride.status %> <br>
+                            <strong>Fare:</strong> $<%= ride.fare %> <br>
+            </li>
+            <hr>
+            <% }); %>
+    </ul>
+    <a href="/dashboard">Back to Dashboard</a>
+</body>
+
+</html>

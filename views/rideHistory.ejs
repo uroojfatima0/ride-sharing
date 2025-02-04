@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Ride History</title>
+</head>
+<body>
+    <h1>Your Ride History</h1>
+    <ul>
+      <% rideHistory.forEach(ride => { %>
+        <li>
+          <strong>Pickup:</strong> <%= ride.pickupLocation %> <br>
+          <strong>Drop-off:</strong> <%= ride.dropOffLocation %> <br>
+          <strong>Status:</strong> <%= ride.status %> <br>
+          <strong>Fare:</strong> $<%= ride.fare %> <br>
+          <strong>Driver:</strong> <%= ride.driver ? ride.driver.name : 'N/A' %> <br>
+        </li>
+        <hr>
+      <% }); %>
+    </ul>
+    <a href="/dashboard">Back to Dashboard</a>
+  </body>
+  
+</html>

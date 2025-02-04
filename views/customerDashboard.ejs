@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,12 +16,13 @@
     /* General body styling */
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f4f7fa; /* Light background for the dashboard */
+      background: #f4f7fa;
       color: #333;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      flex-direction: column;
+      min-height: 100vh;
       padding: 20px;
     }
 
@@ -33,6 +35,7 @@
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
       padding: 40px;
       text-align: center;
+      margin-top: 30px;
     }
 
     /* Header styling */
@@ -44,6 +47,51 @@
       text-transform: capitalize;
     }
 
+    /* Form and input styling */
+    form {
+      margin-bottom: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    label {
+      font-weight: bold;
+      color: #444;
+      font-size: 1.1em;
+      text-align: left;
+    }
+
+    input {
+      padding: 10px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 1em;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+
+    input:focus {
+      border-color: #ff61a6;
+    }
+
+    button {
+      padding: 12px 20px;
+      background: #ff61a6;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1em;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #e65694;
+    }
+
     /* Section for links to available actions */
     .dashboard-links {
       display: grid;
@@ -53,7 +101,8 @@
 
     /* Each action card */
     .card {
-      background: #ff61a6; /* Soft pinkish background */
+      background: #ff61a6;
+      /* Soft pinkish background */
       border-radius: 12px;
       padding: 30px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -94,31 +143,148 @@
       font-size: 0.9em;
       color: #888;
     }
+
+    h2 {
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+
+    /* Ride Status section */
+    #rideStatus {
+      padding: 20px;
+      background: #fff0f6;
+      border-radius: 10px;
+      margin-top: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      text-align: left;
+    }
+
+    #rideStatus button {
+      background-color: #ff61a6;
+      padding: 10px 20px;
+      border-radius: 8px;
+      color: #fff;
+      border: none;
+      margin-top: 10px;
+      font-size: 1em;
+    }
+
+    #rideStatus button:hover {
+      background-color: #e65694;
+    }
+
+    /* Ride History */
+    #rideHistory {
+      list-style-type: none;
+      margin-top: 20px;
+      padding: 0;
+    }
+
+    #rideHistory li {
+      background: #f8f9fa;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Media query for responsiveness */
+    @media (max-width: 768px) {
+      .dashboard-container {
+        padding: 30px;
+      }
+
+      .form input, .form button {
+        width: 100%;
+      }
+    }
   </style>
 </head>
+
 <body>
   <div class="dashboard-container">
     <div class="dashboard-header">
-      <h1>Welcome, <%= customerName %></h1>
+      <h1>Customer Dashboard</h1>
     </div>
 
-    <div class="dashboard-links">
-      <!-- Card for Requesting a Ride -->
-      <div class="card">
-        <h3>Request a Ride</h3>
-        <a href="/rides/request">Request a Ride</a>
-      </div>
+    <h2>Request a Ride</h2>
+    <form id="requestRideForm">
+      <label for="pickupLocation">Pickup Location</label>
+      <input type="text" id="pickupLocation" required>
 
-      <!-- Card for Viewing Ride History -->
-      <div class="card">
-        <h3>Your Ride History</h3>
-        <a href="/customers/<%= customerId %>/ride-history">View Ride History</a>
-      </div>
+      <label for="dropOffLocation">Drop-off Location</label>
+      <input type="text" id="dropOffLocation" required>
+
+      <label for="ridePreferences">Ride Preferences</label>
+      <input type="text" id="ridePreferences" required>
+
+      <button type="submit">Request Ride</button>
+    </form>
+
+    <!-- Your Ongoing Ride -->
+    <h2>Your Ongoing Ride</h2>
+    <div id="rideStatus">
+      <% if (ongoingRide) { %>
+        <p>Pickup Location: <%= ongoingRide.pickupLocation %></p>
+        <p>Drop-off Location: <%= ongoingRide.dropOffLocation %></p>
+        <p>Status: <%= ongoingRide.status %></p>
+        <% if (ongoingRide.status === 'pending') { %>
+          <button id="cancelRideBtn">Cancel Ride</button>
+        <% } %>
+      <% } else { %>
+        <p>No ongoing rides.</p>
+      <% } %>
     </div>
+
+    <!-- Ride History (Completed Rides) -->
+    <h2>Ride History</h2>
+    <ul id="rideHistory">
+      <% completedRides.forEach(ride => { %>
+        <li><%= ride.pickupLocation %> to <%= ride.dropOffLocation %> - <%= ride.status %></li>
+      <% }) %>
+    </ul>
 
     <div class="footer">
-      <p>Customer Dashboard - Ride-Sharing App</p>
+      <p>&copy; 2025 Customer Dashboard. All rights reserved.</p>
     </div>
   </div>
+
+  <script>
+    // Request Ride Form submission handler
+    document.getElementById('requestRideForm').addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const rideData = {
+        pickupLocation: document.getElementById('pickupLocation').value,
+        dropOffLocation: document.getElementById('dropOffLocation').value,
+        ridePreferences: document.getElementById('ridePreferences').value
+      };
+
+      const response = await fetch('http://localhost:5000/api/rides/request', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(rideData)
+      });
+
+      const result = await response.json();
+      alert(result.message);
+    });
+
+    
+
+    // Fetch ride history
+    async function fetchRideHistory() {
+      const customerId = "<%= customerId %>"; // Correct usage of passed customerId
+      const response = await fetch(`/api/customers/${customerId}/ride-history`);
+      const data = await response.json();
+
+      const rideHistoryEl = document.getElementById('rideHistory');
+      rideHistoryEl.innerHTML = data.rides.map(ride => `
+        <li>${ride.pickupLocation} to ${ride.dropOffLocation} - ${ride.status}</li>
+      `).join('');
+    }
+    fetchRideHistory();
+  </script>
 </body>
+
 </html>

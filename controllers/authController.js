@@ -1,16 +1,32 @@
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
-const Customer = require('../models/Customer');
+const bcrypt = require('bcryptjs');
+const User = require('../models/User');
 const Driver = require('../models/Driver');
 
 exports.login = async (req, res) => {
   const { email, password } = req.body;
-  const user = await Customer.findOne({ email }) || await Driver.findOne({ email });
 
-  if (!user || !(await bcrypt.compare(password, user.password))) {
-    return res.status(401).send('Invalid credentials');
+  try {
+    let user = await User.findOne({ email }) || await Driver.findOne({ email });
+
+    if (!user) {
+      return res.status(401).send('Invalid credentials');
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(401).send('Invalid credentials');
+    }
+
+    req.session.user = user;
+    if (user.role === 'customer') {
+      return res.redirect('/dashboard/customer');
+    } else if (user.role === 'driver') {
+      return res.redirect('/dashboard/driver');
+    } else {
+      return res.status(400).send('Invalid user role');
+    }
+  } catch (error) {
+    console.error('Error during login:', error.message);
+    res.status(500).send('Error during login');
   }
-
-  const token = jwt.sign({ id: user._id, role: user instanceof Driver ? 'driver' : 'customer' }, process.env.JWT_SECRET, { expiresIn: '1d' });
-  res.json({ token });
 };
