@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earnings Summary</title>
+    <style>
+        /* Reset default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* General body styling */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f7fa;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+        }
+
+        /* Earnings summary container */
+        .earnings-container {
+            background: #fff;
+            width: 100%;
+            max-width: 800px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            text-align: center;
+        }
+
+        /* Header styling */
+        h1 {
+            font-size: 2.5em;
+            color: #2b2b2b;
+            margin-bottom: 20px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        h2 {
+            font-size: 1.8em;
+            margin-top: 30px;
+            color: #444;
+            font-weight: 600;
+        }
+
+        /* Earnings summary text */
+        p {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        /* Ride details list */
+        ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        li {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background: #ddd;
+            margin: 15px 0;
+        }
+
+        /* Back to Dashboard Button */
+        a {
+            display: inline-block;
+            margin-top: 30px;
+            text-decoration: none;
+            font-size: 1.2em;
+            color: #ff61a6;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: 2px solid #ff61a6;
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #ff61a6;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="earnings-container">
+        <h1>Your Earnings Summary</h1>
+        <p><strong>Total Rides Completed:</strong> <%= totalRides %></p>
+        <p><strong>Total Earnings:</strong> $<%= totalEarnings %></p>
+
+        <h2>Ride Details</h2>
+        <ul>
+            <% rides.forEach(ride => { %>
+                <li>
+                    <strong>Pickup:</strong> <%= ride.pickupLocation %> <br>
+                    <strong>Drop-off:</strong> <%= ride.dropOffLocation %> <br>
+                    <strong>Status:</strong> <%= ride.status %> <br>
+                    <strong>Fare:</strong> $10 <br>
+                </li>
+                <hr>
+            <% }); %>
+        </ul>
+
+        <a href="/dashboard/driver">Back to Dashboard</a>
+    </div>
+</body>
+
+</html>

@@ -119,29 +119,35 @@ router.post('/api/rides/:rideId/cancel', async (req, res) => {
     const customerId = req.session?.user?._id;
 
     if (!mongoose.Types.ObjectId.isValid(rideId)) {
+        console.log('Invalid Ride ID:', rideId);
         return res.status(400).json({ error: 'Invalid ride ID' });
     }
 
     try {
+        console.log('Canceling ride for customer:', customerId);
         const ride = await Ride.findOne({ _id: rideId, customerId });
 
         if (!ride) {
+            console.log('Ride not found or not authorized:', rideId);
             return res.status(404).json({ error: 'Ride not found or not authorized' });
         }
 
         if (ride.status !== 'pending') {
+            console.log('Ride status is not pending:', ride.status);
             return res.status(400).json({ error: 'Ride cannot be canceled after a driver is assigned' });
         }
 
         ride.status = 'canceled';
         await ride.save();
+        console.log('Ride canceled successfully:', rideId);
 
         res.status(200).json({ message: 'Ride canceled successfully' });
     } catch (error) {
-        console.error(error);
+        console.error('Error during ride cancellation:', error);
         res.status(500).json({ error: 'Something went wrong' });
     }
 });
+
 
 // ✅ 4. Ride History
 router.get('/api/customers/:customerId/ride-history', async (req, res) => {

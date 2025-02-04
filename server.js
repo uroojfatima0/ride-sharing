@@ -3,9 +3,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const authRoutes = require('./routes/authRoutes');
-const rideRoutes = require('./routes/rideRoutes');
 const userRoutes = require('./routes/userRoutes');
-const { ensureAuthenticated } = require('./middlewares/auth');
 const driverRoutes = require('./routes/driverRoutes');  
 
 const app = express();
@@ -38,7 +36,7 @@ app.get('/', (req, res) => {
 
 // Setup session (if using sessions)
 app.use(session({
-  secret: 'secret-key',
+  secret: 'xdytfu7y8u9ipop',
   resave: false,
   saveUninitialized: true,
 }));
@@ -46,12 +44,7 @@ app.use(session({
 // Routes
 app.use(authRoutes);
 app.use(userRoutes);
-app.use('/customerDashboard', userRoutes); 
 app.use(driverRoutes);
-app.use('/driverDashboard', driverRoutes); 
-app.use('/api/rides', userRoutes);
-app.use('/rides/:id/accept', driverRoutes);
-app.use(rideRoutes);
 
 // Start server
 const PORT = process.env.PORT || 5000;

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +16,8 @@
     /* General body styling */
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f4f7fa; /* Light background for the dashboard */
+      background: #f4f7fa;
+      /* Light background for the dashboard */
       color: #333;
       display: flex;
       justify-content: center;
@@ -36,22 +38,12 @@
     }
 
     /* Header styling */
-    h1 {
-      font-size: 3em;
+    .dashboard-header h1 {
+      font-size: 2.5em;
       color: #2b2b2b;
       margin-bottom: 30px;
       font-weight: bold;
       text-transform: capitalize;
-      letter-spacing: 2px;
-    }
-
-    h2 {
-      font-size: 2em;
-      margin-bottom: 20px;
-      color: #444;
-      text-transform: uppercase;
-      font-weight: 600;
-      letter-spacing: 1px;
     }
 
     /* Container for rides (Available & Ongoing) */
@@ -113,73 +105,90 @@
       margin-top: 30px;
       text-decoration: none;
       font-size: 1.2em;
-      color: #ff61a6;
+      background-color: #ff61a6;
       font-weight: 600;
       padding: 10px 20px;
       border-radius: 8px;
-      border: 2px solid #ff61a6;
+      color: white;
       transition: all 0.3s ease;
     }
 
     a:hover {
-      background-color: #ff61a6;
+      background-color: #e65694;
       color: white;
     }
   </style>
 </head>
+
 <body>
   <div class="dashboard-container">
-    <h1>Driver Dashboard</h1>
+    <h1>Welcome, <%= driverName %>!</h1>
+    <h2>Driver Dashboard</h2>
 
     <!-- Available Rides Container -->
     <div class="ride-container">
-      <h2>Available Rides</h2>
-      <ul>
-        <% availableRides.forEach(ride => { %>
-          <li>
-            <strong>Pickup:</strong> <%= ride.pickupLocation %> <br>
-            <strong>Drop-off:</strong> <%= ride.dropOffLocation %> <br>
+        <h2>Available Rides</h2><br>
+      <% if (availableRides.length> 0) { %>
+        <ul>
+          <% availableRides.forEach(ride=> { %>
+            <li>
+              <strong>Pickup:</strong>
+              <%= ride.pickupLocation %> <br>
+                <strong>Drop-off:</strong>
+                <%= ride.dropOffLocation %> <br>
 
-            <!-- Form to accept ride -->
-            <form action="/rides/<%= ride._id %>/accept" method="POST">
-              <input type="hidden" name="driverId" value="<%= driverId %>">
-              <button type="submit">Accept Ride</button>
-            </form>
-          </li>
-        <% }); %>
-      </ul>
+                  <!-- Form to accept ride -->
+                  <form action="/rides/<%= ride._id %>/accept" method="POST">
+                    <input type="hidden" name="driverId" value="<%= driverId %>">
+                    <button type="submit">Accept Ride</button>
+                  </form>
+            </li>
+            <% }); %>
+        </ul>
+        <% } else { %>
+          <p>No Available Rides</p>
+          <% } %>
     </div>
 
     <!-- Ongoing Rides Container -->
     <div class="ride-container">
-      <h2>Ongoing Rides</h2>
-      <ul>
-        <% ongoingRides.forEach(ride => { %>
-          <li>
-            <strong>Pickup:</strong> <%= ride.pickupLocation %> <br>
-            <strong>Drop-off:</strong> <%= ride.dropOffLocation %> <br>
-            <strong>Status:</strong> <%= ride.status %> <br>
+        <h2>Ongoing Rides</h2><br>
+      <% if (ongoingRides.length> 0) { %>
+        <ul>
+          <% ongoingRides.forEach(ride=> { %>
+            <li>
+              <strong>Pickup:</strong>
+              <%= ride.pickupLocation %> <br>
+                <strong>Drop-off:</strong>
+                <%= ride.dropOffLocation %> <br>
+                  <strong>Status:</strong>
+                  <%= ride.status %> <br>
 
-            <!-- Button to start ride if status is 'accepted' -->
-            <% if (ride.status === 'accepted') { %>
-              <form action="/rides/<%= ride._id %>/start" method="POST">
-                <button type="submit">Start Ride</button>
-              </form>
-            <% } %>
+                    <!-- Button to start ride if status is 'accepted' -->
+                    <% if (ride.status==='accepted' ) { %>
+                      <form action="/rides/<%= ride._id %>/start" method="POST">
+                        <button type="submit">Start Ride</button>
+                      </form>
+                      <% } %>
 
-            <!-- Button to complete ride if status is 'in progress' -->
-            <% if (ride.status === 'in progress') { %>
-              <form action="/rides/<%= ride._id %>/complete" method="POST">
-                <button type="submit">Complete Ride</button>
-              </form>
-            <% } %>
-          </li>
-        <% }); %>
-      </ul>
+                        <!-- Button to complete ride if status is 'in progress' -->
+                        <% if (ride.status==='in progress' ) { %>
+                          <form action="/rides/<%= ride._id %>/complete" method="POST">
+                            <button type="submit">Complete Ride</button>
+                          </form>
+                          <% } %>
+            </li>
+            <% }); %>
+        </ul>
+        <% } else { %>
+          <p>No Ongoing Rides</p>
+          <% } %>
     </div>
+
 
     <!-- Link to view earnings -->
     <a href="/earnings">View Earnings</a>
   </div>
 </body>
+
 </html>

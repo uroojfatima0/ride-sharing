@@ -188,13 +188,38 @@
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
 
+    /* Navigation Buttons */
+    .dashboard-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .dashboard-links button {
+      width: 200px;
+      padding: 15px;
+    }
+
     /* Media query for responsiveness */
     @media (max-width: 768px) {
       .dashboard-container {
-        padding: 30px;
+        width: 100%;
+        height: 80vh;
+        padding: 20px;
       }
 
-      .form input, .form button {
+      .dashboard-links {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .dashboard-links button {
+        width: 100%;
+      }
+
+      .form input,
+      .form button {
         width: 100%;
       }
     }
@@ -204,45 +229,65 @@
 <body>
   <div class="dashboard-container">
     <div class="dashboard-header">
-      <h1>Customer Dashboard</h1>
+      <h1>Welcome, <%= customerName %>!</h1>
+      <h2>Customer Dashboard</h2>
     </div>
 
-    <h2>Request a Ride</h2>
-    <form id="requestRideForm">
-      <label for="pickupLocation">Pickup Location</label>
-      <input type="text" id="pickupLocation" required>
-
-      <label for="dropOffLocation">Drop-off Location</label>
-      <input type="text" id="dropOffLocation" required>
-
-      <label for="ridePreferences">Ride Preferences</label>
-      <input type="text" id="ridePreferences" required>
-
-      <button type="submit">Request Ride</button>
-    </form>
-
-    <!-- Your Ongoing Ride -->
-    <h2>Your Ongoing Ride</h2>
-    <div id="rideStatus">
-      <% if (ongoingRide) { %>
-        <p>Pickup Location: <%= ongoingRide.pickupLocation %></p>
-        <p>Drop-off Location: <%= ongoingRide.dropOffLocation %></p>
-        <p>Status: <%= ongoingRide.status %></p>
-        <% if (ongoingRide.status === 'pending') { %>
-          <button id="cancelRideBtn">Cancel Ride</button>
-        <% } %>
-      <% } else { %>
-        <p>No ongoing rides.</p>
-      <% } %>
+    <!-- Navigation Buttons -->
+    <div class="dashboard-links">
+      <button onclick="showSection('requestRideSection')">Request Ride</button>
+      <button onclick="showSection('ongoingRideSection')">Ongoing Ride</button>
+      <button onclick="showSection('rideHistorySection')">Ride History</button>
     </div>
 
-    <!-- Ride History (Completed Rides) -->
-    <h2>Ride History</h2>
-    <ul id="rideHistory">
-      <% completedRides.forEach(ride => { %>
-        <li><%= ride.pickupLocation %> to <%= ride.dropOffLocation %> - <%= ride.status %></li>
-      <% }) %>
-    </ul>
+    <!-- Request Ride Section -->
+    <div id="requestRideSection">
+      <h2>Request a Ride</h2>
+      <form id="requestRideForm">
+        <label for="pickupLocation">Pickup Location</label>
+        <input type="text" id="pickupLocation" required>
+        <label for="dropOffLocation">Drop-off Location</label>
+        <input type="text" id="dropOffLocation" required>
+        <label for="ridePreferences">Ride Preferences</label>
+        <input type="text" id="ridePreferences" required>
+        <button type="submit">Request Ride</button>
+      </form>
+    </div>
+
+    <!-- Ongoing Ride Section -->
+    <div id="ongoingRideSection" style="display: none;">
+      <h2>Your Ongoing Ride</h2>
+      <div id="rideStatus">
+        <% if (ongoingRide) { %>
+          <p><strong>Pickup:</strong>
+            <%= ongoingRide.pickupLocation %>
+          </p>
+          <p><strong>Drop-off:</strong>
+            <%= ongoingRide.dropOffLocation %>
+          </p>
+          <p><strong>Status:</strong>
+            <%= ongoingRide.status %>
+          </p>
+          <% if (ongoingRide.status==='pending' ) { %>
+            <button id="cancelRideBtn">Cancel Ride</button>
+            <% } %>
+              <% } else { %>
+                <p>No ongoing rides.</p>
+                <% } %>
+      </div>
+    </div>
+
+    <!-- Ride History Section -->
+    <div id="rideHistorySection" style="display: none;">
+      <h2>Ride History</h2>
+      <ul id="rideHistory">
+        <% completedRides.forEach(ride=> { %>
+          <li>
+            <%= ride.pickupLocation %> to <%= ride.dropOffLocation %> - <%= ride.status %>
+          </li>
+          <% }) %>
+      </ul>
+    </div>
 
     <div class="footer">
       <p>&copy; 2025 Customer Dashboard. All rights reserved.</p>
@@ -250,6 +295,16 @@
   </div>
 
   <script>
+    function showSection(sectionId) {
+      // Hide all sections
+      document.getElementById('requestRideSection').style.display = 'none';
+      document.getElementById('ongoingRideSection').style.display = 'none';
+      document.getElementById('rideHistorySection').style.display = 'none';
+
+      // Show selected section
+      document.getElementById(sectionId).style.display = 'block';
+    }
+
     // Request Ride Form submission handler
     document.getElementById('requestRideForm').addEventListener('submit', async (event) => {
       event.preventDefault();
@@ -270,7 +325,21 @@
       alert(result.message);
     });
 
-    
+    // Handle cancel ride button click
+    document.getElementById('cancelRideBtn')?.addEventListener('click', async () => {
+      const rideId = "<%= ongoingRide ? ongoingRide._id : '' %>"; // Use the ongoing ride's ID if available
+
+      if (!rideId) {
+        return alert('No ongoing ride to cancel');
+      }
+
+      const response = await fetch(`/api/rides/${rideId}/cancel`, {
+        method: 'POST',
+      });
+
+      const result = await response.json();
+      alert(result.message);
+    });
 
     // Fetch ride history
     async function fetchRideHistory() {
@@ -286,5 +355,6 @@
     fetchRideHistory();
   </script>
 </body>
+
 
 </html>
